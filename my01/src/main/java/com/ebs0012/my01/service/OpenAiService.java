@@ -1,6 +1,5 @@
 package com.ebs0012.my01.service;
 
-import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
 
@@ -31,9 +30,9 @@ public class OpenAiService {
         Map<String, Object> body = Map.of(
                 "model", "gpt-3.5-turbo", // gpt 모델선정
                 "messages", messages, // 메세지 입력
-                "temperture", 1.2, // 온도 0~2까지
+                "temperature", 1.2, // 온도 0~2까지
                 "max_tokens", 100, // 최대 토큰 사용량
-                "persence_penalty", 0.6, // 새로운 주제 유도
+                "presence_penalty", 0.6, // 새로운 주제 유도
                 "frequency_penalty", 0.5 // 반복억제
         );
 
