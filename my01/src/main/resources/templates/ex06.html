@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http: //www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>오늘의 붕어빵</title>
+    <style>
+      body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+      table {
+        width: 700px;
+        border-width: 5px;
+      }
+      tr,
+      th,
+      td {
+        width: 25%;
+        height: 45px;
+        background-color: lightsalmon;
+        text-align: center;
+        color: white;
+        font-weight: bold;
+        box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.4);
+      }
+    </style>
+  </head>
+  <body>
+    <div th:replace="~{fragments/gohome::goToHome}"></div>
+    <h1>오늘의 붕어빵</h1>
+    <table>
+      <tr>
+        <th>번호</th>
+        <th>맛</th>
+        <th>가격</th>
+        <th>출시일</th>
+      </tr>
+      <tr th:each="bung, stat : ${bungs}">
+        <td th:text="${stat.count} + '번'"></td>
+        <td th:text="${bung.flavor} +' 붕어빵'"></td>
+        <td th:text="${bung.price} + '원'"></td>
+        <td th:text="${#temporals.format(bung.since, 'yyyy-MM-dd')}"></td>
+      </tr>
+    </table>
+  </body>
+  <div th:replace="~{fragments/footer::myFooter}"></div>
+</html>

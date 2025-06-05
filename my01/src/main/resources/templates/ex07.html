@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http: //www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div th:replace="~{fragments/gohome::goToHome}"></div>
+
+    <fieldset>
+      <legend>Request Param 사용</legend>
+      <form action="/GET-querystring">
+        <input type="text" name="inpName" placeholder="이름" />
+        <br />
+        <input type="number" name="inAge" placeholder="나이" />
+        <br />
+        <label for="male">남성:</label>
+        <input type="radio" id="male" name="inGen" value="male" />
+        <label for="female">여성:</label>
+        <input type="radio" id="female" name="inGen" value="female" />
+        <br />
+        <label for="ck">동의:</label>
+        <input type="checkbox" id="ck" name="allow" />
+        <br />
+        <select name="lang" id="lang">
+          <option value="" disabled selected>== 언어 선택 ==</option>
+          <option value="c">C</option>
+          <option value="java">JAVA</option>
+          <option value="python">Python</option>
+        </select>
+
+        <hr />
+        <button type="submit">전송</button>
+      </form>
+
+      <ol th:if="${content[0]} != '이름:null'">
+        <li th:text="${content}"></li>
+      </ol>
+    </fieldset>
+  </body>
+  <div th:replace="~{fragments/footer::myFooter}"></div>
+</html>

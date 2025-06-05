@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http: //www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div th:replace="~{fragments/gohome::goToHome}"></div>
+
+    <fieldset>
+      <legend>Pathvariable 사용</legend>
+      <form action="/pathvariable" id="myForm">
+        <input type="text" id="input-name" name="inName" placeholder="이름" />
+        <br />
+        <input type="number" id="input-age" name="inAge" placeholder="나이" />
+
+        <hr />
+        <button type="submit">전송</button>
+      </form>
+    </fieldset>
+
+    <ul th:if="${content[0]} != '이름:null'">
+      <li th:text="${content}"></li>
+    </ul>
+
+    <script>
+      const myform = document.getElementById("myForm");
+      myform.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const name = document.querySelector("#input-name").value;
+        const age = document.querySelector("#input-age").value;
+
+        window.location.href = `/pathvariable/${name}/${age}`;
+      });
+    </script>
+  </body>
+  <div th:replace="~{fragments/footer::myFooter}"></div>
+</html>

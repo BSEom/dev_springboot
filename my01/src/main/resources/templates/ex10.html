@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>채팅</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        margin: 0;
+        background-color: azure;
+        padding: 2rem;
+      }
+      .box {
+        width: 500px;
+        height: 600px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        border-radius: 15px;
+        overflow: hidden;
+
+        margin: 100px auto;
+
+        box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+      }
+      .chat-container {
+        width: 100%;
+        /* height: 500px; */
+        box-sizing: border-box;
+        margin: auto;
+        padding: 1rem 3rem 0 4rem;
+        background-color: white;
+        border-radius: 15px 15px 0 0;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        display: flex;
+        flex-direction: column;
+        overflow-y: auto;
+        flex: 8;
+      }
+
+      .chat-input {
+        flex: 1;
+        width: 100%;
+        display: flex;
+        justify-content: stretch;
+        background-color: beige;
+      }
+
+      textarea {
+        width: 70%;
+        resize: none;
+        border: none;
+        outline: none;
+        background-color: rgb(200, 221, 240);
+
+        padding: 30px;
+        font-size: 1.2rem;
+        color: rgb(87, 13, 156);
+        font-weight: bold;
+      }
+      button {
+        width: 30%;
+        border: none;
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: rgb(0, 121, 121);
+        background-color: cornsilk;
+        cursor: pointer;
+      }
+
+      .message {
+        display: flex;
+        align-items: end;
+        margin-bottom: 1.2rem;
+      }
+      .message.bot {
+        justify-content: start;
+      }
+      .message.user {
+        justify-content: end;
+      }
+      .bubble {
+        max-width: 300px;
+        position: relative;
+        border-radius: 15px;
+        background-color: aliceblue;
+        padding: 0.7rem 1rem;
+        word-break: break-word;
+        white-space: pre-line; /* 줄바꿈, 공백 유지 */
+      }
+      .name {
+        font-size: 0.8rem;
+        color: #555;
+        margin: 0 10px 2px;
+      }
+      .user .bubble {
+        background-color: yellow;
+      }
+      .user .name {
+        text-align: right;
+        /* line-height: 175%; */
+      }
+      .chat-container::-webkit-scrollbar {
+        background: #e0dfdf;
+        width: 30px;
+      }
+      .chat-container::-webkit-scrollbar-thumb {
+        background: #376daa;
+        border-radius: 6px;
+      }
+      .chat-container::-webkit-scrollbar-thumb:active {
+        background: #95bb0d;
+        border-radius: 6px;
+      }
+      .user .profile-img {
+        width: 40px;
+        height: 40px;
+        background-color: white;
+        border-radius: 50%;
+        background-image: url("https://e7.pngegg.com/pngimages/26/210/png-clipart-dogecoin-shiba-inu-scrypt-cryptocurrency-ethereum-coin-mammal-cat-like-mammal.png");
+        background-size: 80px 40px;
+        background-position: 60px 0;
+        transition: 0.5s ease;
+        z-index: 5;
+      }
+
+      .bot .profile-img {
+        width: 40px;
+        height: 40px;
+        background-color: white;
+        border-radius: 50%;
+        background-image: url("https://w7.pngwing.com/pngs/234/79/png-transparent-black-robot-face-illustration-robotics-technology-computer-icons-internet-bot-robotics-humanoid-robot-industrial-robot-area-thumbnail.png");
+        background-size: 40px 40px;
+
+        transition: 0.5s ease;
+        z-index: 5;
+      }
+
+      .user .profile {
+        display: flex;
+        justify-content: right;
+        align-items: center;
+      }
+
+      .bot .profile {
+        display: flex;
+        justify-content: left;
+        align-items: center;
+      }
+
+      .profile-img:hover {
+        transform: scale(3);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- div.chat-container>div.message.bot>div>div.name{myBot}+div.bubble{안녕하세요. 무엇을 도와드릴까요?}^^div.message.user>div>div.name{나}+div.bubble{Flex로 채팅화면을 만들 수 있나?} -->
+    <div class="box">
+      <div class="chat-container">
+        <div class="message bot">
+          <div>
+            <div>
+              <div class="profile">
+                <div class="profile-img"></div>
+                <div class="name">myBot</div>
+              </div>
+            </div>
+            <div class="bubble">
+              안녕하세요. 무엇을 도와드릴까요?
+              aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+            </div>
+          </div>
+        </div>
+
+        <div class="message user">
+          <div>
+            <div class="profile">
+              <div class="name">나</div>
+              <div class="profile-img"></div>
+            </div>
+            <div class="bubble">Flex로 채팅화면을 만들 수 있나?</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="chat-input">
+        <textarea
+          name=""
+          id="text-area"
+          placeholder="메시지를 입력하세요."
+        ></textarea>
+        <button id="send-btn">전송</button>
+      </div>
+    </div>
+
+    <script>
+      const sendBtn = document.getElementById("send-btn");
+      const chatContainer = document.querySelector(".chat-container");
+      const textArea = document.querySelector("#text-area");
+
+      const sendMessage = () => {
+        const userMessage = textArea.value.trim(); // 빈칸 없애기
+        if (userMessage) {
+          const userDiv = document.createElement("div");
+          userDiv.className = "message user";
+          userDiv.innerHTML = `<div>
+            <div class="profile">
+              <div class="name">나</div>
+              <div class="profile-img"></div>
+            </div>
+            <div class="bubble">${userMessage}</div>
+          </div>
+        </div>`;
+          chatContainer.appendChild(userDiv);
+          textArea.value = "";
+          chatContainer.scrollTop = chatContainer.scrollHeight; // 스크롤을 맨 아래로 이동
+        }
+
+        fetch("/final-chatbot", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message: userMessage }),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            const botDiv = document.createElement("div");
+            botDiv.className = "message bot";
+            botDiv.innerHTML = `<div>
+            <div class="profile">
+              <div class="name">myBot</div>
+              <div class="profile-img"></div>
+            </div>
+            <div class="bubble">${data.reply}</div>
+          </div>
+        </div>`;
+            chatContainer.appendChild(botDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+          });
+      };
+
+      sendBtn.addEventListener("click", sendMessage);
+      textArea.addEventListener("keydown", (event) => {
+        console.log(!event.shiftKey && !event.ctrlKey);
+        if (event.key === "Enter" && !event.shiftKey) {
+          event.preventDefault(); // 원래 기능을 막는 함수
+          sendMessage();
+        }
+      });
+    </script>
+  </body>
+</html>
